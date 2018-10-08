@@ -160,7 +160,7 @@ class TreeScene {
 
 		//sun
 		fill(255,100,30);
-		ellipse(this.originX + this.imageWidth/2 * random(1,1.01), this.imageHeight/2*(random(1,1.01)), this.sunWidth, this.sunHeight);
+		ellipse(this.originX * random(1,1.01), this.imageHeight/2*(random(1,1.01)), this.sunWidth, this.sunHeight);
 
 		for (var i = 0; i < this.trees.length; i++) {
 			var currentTree = this.trees[i];
@@ -188,6 +188,9 @@ class TreeScene {
 		textStyle('bold');
 		text("STUBBORN",treeImageWidth/2,120);
 		pop();
+
+		fill(211, 183, 22);
+		triangle(516 + treeImageWidth, 376 + (treeImageHeight - diverImageHeight), 565 + treeImageWidth, 283 + (treeImageHeight - diverImageHeight), 565 + treeImageWidth, 376 + (treeImageHeight - diverImageHeight));
 	}
 }
 
@@ -282,6 +285,8 @@ class DiverScene {
 	}
 
 	renderComponents() {
+		fill(213, 213, 213);
+		rect(0, 0, diverImageWidth, treeImageHeight);
 		// first mountain shape
 		push();
 
@@ -292,18 +297,19 @@ class DiverScene {
 
 		//background(213, 213, 213);
 
-		fill(213, 213, 213);
-		rect(0, 0, diverImageWidth, treeImageHeight);
+	
+		
 
 		fill(213, 120, 89);
-		quad(0, 0, 7, 0, 56, 140, 0, 376);
+		quad(0, 0, 0, -120, 56, 140, 0, 376);
 	
 		fill(48, 63, 84);
 		beginShape();
 			vertex(0, 376)
 			vertex(56, 140);
 			vertex(89, 0);
-			vertex(125, 0);
+			vertex(89, 0);
+			//184
 			vertex(184, 308);
 			vertex(196, 376);
 		endShape();
@@ -321,8 +327,11 @@ class DiverScene {
 		stroke(41, 59, 83);
 		triangle(171, 376, 198, 376, 184, 309);
 	
-		fill(211, 183, 22);
-		triangle(516, 376, 565, 283, 565, 376);
+		
+		
+		// 516
+		
+
 	
 		pop();
 		this.diver.render();
@@ -339,7 +348,7 @@ const diverImageWidth = 565, diverImageHeight = 376;
 const diverX = 315;
 const diverY = 269;
 let diverScene = new DiverScene({
-	backgroundOrigin: {x: 0, y: 0},
+	backgroundOrigin: {x: 0, y: treeImageHeight - diverImageHeight},
 	backgroundScale: 1,
 	backgroundRotation: 0,
 	diverOrigin: {
@@ -352,13 +361,15 @@ let diverScene = new DiverScene({
 
 const textPosX = treeImageWidth/2, textPosY = 120;
 const textScale = treeImageWidth/6.6;
-const sunX = diverImageWidth + treeImageWidth/2;
+const sunX = diverImageWidth; //+ treeImageWidth/2;
 const sunY =  treeImageHeight/2;
 const sunWidth = treeImageWidth/3.5;
 const sunHeight = treeImageHeight/4;
 
 let treeScene = new TreeScene({
 	treeOpts: [
+
+		// middle
 		{
 			treePosX: diverImageWidth + treeImageWidth/2,
 			treePosY: treeImageHeight, 
@@ -366,15 +377,17 @@ let treeScene = new TreeScene({
 			treeDx: treeDx, 
 			treeDy: treeDy,
 		},
+		// left
 		{
-			treePosX:diverImageWidth + treeImageWidth/4,
+			treePosX:diverImageWidth,
 			treePosY: treeImageHeight,
 			treeSize: 0.9,
 			treeDx: treeDx, 
 			treeDy: treeDy,
 		},
+		// right
 		{
-			treePosX: diverImageWidth + 3*treeImageWidth/4, 
+			treePosX: diverImageWidth + treeImageWidth, 
 			treePosY: treeImageHeight, 
 			treeSize: 0.8,
 			treeDx: treeDx, 
@@ -386,6 +399,8 @@ let treeScene = new TreeScene({
 	textScale: textScale,
 	sunWidth: sunWidth,
 	sunHeight: sunHeight,
+	sunX: sunX, 
+	sunY: sunY,
 	originX: diverImageWidth,
 	originY: 0,
 	imageWidth: treeImageWidth,
