@@ -26,21 +26,6 @@ class Tree {
 		this.duplicated = false;
 	}
 
-	/*wrapAroundVertex(pointX, pointY) {
-		if (this.treePosX + pointX < this.MIN_X) {
-			console.log("wrapping around...")
-			this.pointX = 
-		}
-
-		console.log(adjX, " ", pointY)
-		push();
-		translate(, pointY);
-		scale(this.treeSize);
-		
-		vertex(pointX, pointY);
-		pop();
-	}*/
-
 	drawTree() {
 		this.updatePos();
 
@@ -152,12 +137,9 @@ class Tree {
 class TreeScene {
 	constructor(opts) {
 		this.trees = [];
-		//console.log("TREE OPTS: ", opts.treeOpts)
 		opts.treeOpts.forEach(treeOpt => {
-			//console.log(treeOpt)
 			let t = new Tree(treeOpt);
 			this.trees.push(t);
-			//console.log(this.trees)
 		})
 		this.duplicates = [];
 		this.sunX = opts.sunX;
@@ -176,17 +158,9 @@ class TreeScene {
 		fill(245);
 		rect(this.originX, this.originY, treeImageWidth, treeImageHeight);
 
-	// scale(random(1,1.002));
-	// translate(random(0,1),random(0,1));
-
 		//sun
 		fill(255,100,30);
 		ellipse(this.originX + this.imageWidth/2 * random(1,1.01), this.imageHeight/2*(random(1,1.01)), this.sunWidth, this.sunHeight);
-
-
-	//tree(width/2, height, 1);
-	//tree(width/4, height, .9);
-	//tree(3*width/4, height, .6);
 
 		for (var i = 0; i < this.trees.length; i++) {
 			var currentTree = this.trees[i];
@@ -236,7 +210,6 @@ class Diver {
 	yPos() {
 		let t = this.iterationCount/20;
 		let pos = 4.9 * t * t + this.diverInitialVelocity * t + this.diverStartY;
-		//console.log("height: ", height, "pos: ", pos);
 		if (pos > height) {
 			this.direction = -this.direction;
 		}
@@ -249,19 +222,20 @@ class Diver {
 			this.direction = -this.direction;
 		}
 		return pos;
-	}
+	}	
 
 	render() {
-		push();
-
-	    if (!ANIMATE) {
+	  	if (!ANIMATE) {
 			this.animationIncrement = 0;
 		} else {
 			this.animationIncrement = 1;
 		}
+
+		push();
+
 		translate(this.xPos(), this.yPos());
-		rotate(this.diverRotation);
-		scale(this.scale)
+		rotate(this.rotation);
+		scale(this.scale);
 
 		let bodyCorners = [
 			{x: 8, y: 9},
@@ -419,18 +393,12 @@ let treeScene = new TreeScene({
 });
 
 function draw() {
-	//background(213, 213, 213)
 	diverScene.renderComponents();
 	treeScene.renderComponents();
-	// Tree scene 
-	//background(245);
 }
 
 function withinEllipse(x, y, h, k, a, b) {
-	
-	let v = (x - h) ** 2 / (a ** 2) + (y - k) ** 2 / (b ** 2);
-	console.log(v);
-	return v <= 1;
+	return (x - h) ** 2 / (a ** 2) + (y - k) ** 2 / (b ** 2);
 }
 
 function mouseClicked() {
